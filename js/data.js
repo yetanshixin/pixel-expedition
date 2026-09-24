@@ -70,10 +70,10 @@ const SKILLS = {
   life_drain:  { id: 'life_drain', name: '生命汲取', emoji: '💚', mp: 10, type: 'heal', heal: [0, 20], element: 'holy', desc: '消耗10MP，恢复0~20点生命' },
   heal:        { id: 'heal', name: '治愈术', emoji: '✨', mp: 15, type: 'heal', heal: [25, 25], element: 'holy', desc: '消耗15MP，恢复25点生命' },
   holy_bolt:   { id: 'holy_bolt', name: '光之冲击', emoji: '☀️', mp: 12, mult: 1.6, type: 'attack', element: 'holy', desc: '消耗12MP，造成160%伤害，克制黑暗生物' },
-  summon_blade:{ id: 'summon_blade', name: '剑灵', emoji: '🗡️', mp: 0, type: 'summon', pet: 'blade', signature: true, desc: '召唤剑灵并肩作战，每回合自动攻击（本局仅一只）' },
+  summon_blade:{ id: 'summon_blade', name: '剑灵', emoji: '🗡️', mp: 0, type: 'summon', pet: 'blade', signature: true, desc: '召唤剑灵并肩作战，每回合自动攻击，阵亡后可重新召唤' },
   meditate:    { id: 'meditate', name: '冥想', emoji: '🧘', mp: 0, type: 'mpheal', pct: 0.3, signature: true, desc: '恢复30%最大法力值' },
   steadfast:   { id: 'steadfast', name: '坚定', emoji: '💪', mp: 0, type: 'hpheal', pct: 0.25, shield: 10, signature: true, desc: '恢复25%生命并获得10点护盾' },
-  shadow_clone:{ id: 'shadow_clone', name: '影分身', emoji: '🥷', mp: 0, type: 'summon', pet: 'shadow', signature: true, desc: '召唤影分身并肩作战，每回合自动攻击（本局仅一只）' }
+  shadow_clone:{ id: 'shadow_clone', name: '影分身', emoji: '🥷', mp: 0, type: 'summon', pet: 'shadow', signature: true, desc: '召唤影分身并肩作战，每回合自动攻击，阵亡后可重新召唤' }
 };
 
 /* 遗物：被动效果，可叠加成流派。rarity: common/rare */
@@ -140,8 +140,8 @@ const ENEMIES = [
 
 /* 我方随从（职业特色召唤物） */
 const PETS = {
-  blade:  { name: '剑灵',   emoji: '🗡️', mult: 0.4 },
-  shadow: { name: '影分身', emoji: '🥷', mult: 0.5 }
+  blade:  { name: '剑灵',   emoji: '🗡️', mult: 0.4, hpMult: 0.4,  def: 5 },
+  shadow: { name: '影分身', emoji: '🥷', mult: 0.5, hpMult: 0.35, def: 3 }
 };
 
 /* 召唤物 / 小怪 */
@@ -157,10 +157,10 @@ const BOSSES = [
     skills: [{ name: '暗影斩', mult: 1.8, w: 55, charge: true }, { name: '暗影侵蚀', mult: 1.4, w: 45, burn: true }],
     taunts: ['黑暗将吞噬一切！'] },
   { id: 'inferno', name: '炎魔', emoji: '🔥', hp: 200, atk: 28, def: 16, element: 'fire',
-    skills: [{ name: '烈焰风暴', mult: 2.0, w: 55, charge: true }, { name: '灼热吐息', mult: 1.5, w: 45, burn: true }],
+    skills: [{ name: '烈焰风暴', mult: 2.0, w: 55, charge: true, aoe: true }, { name: '灼热吐息', mult: 1.5, w: 45, burn: true }],
     taunts: ['在烈焰中化为灰烬吧！'] },
   { id: 'dragon', name: '龙裔魔王', emoji: '🐲', hp: 220, atk: 32, def: 18, elements: ['dragon'],
-    skills: [{ name: '龙息', mult: 2.2, w: 65, charge: true }, { name: '鳞甲防御', mult: 0, w: 35, defend: true }],
+    skills: [{ name: '龙息', mult: 2.2, w: 65, charge: true, aoe: true }, { name: '鳞甲防御', mult: 0, w: 35, defend: true }],
     taunts: ['蝼蚁，也敢挑战龙威？'] }
 ];
 

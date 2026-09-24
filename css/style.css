@@ -372,6 +372,7 @@ h2 { font-size: 24px; margin-bottom: 16px; color: var(--gold); text-shadow: 2px 
 .pet-display:empty { display: none; }
 .pet-display .pet-emoji { font-size: 30px; line-height: 1; filter: drop-shadow(0 3px 0 rgba(0,0,0,.4)); animation: bob 2.4s ease-in-out infinite; }
 .pet-display .pet-name { text-shadow: 1px 1px 0 #0a0b12; }
+.pet-display .pet-hp { font-size: 10px; color: var(--green); text-shadow: 1px 1px 0 #0a0b12; }
 .pet-display.shake { animation: shake .4s ease; }
 .hero-card.locked { opacity: .55; cursor: not-allowed; filter: grayscale(.7); }
 .hero-lock { font-size: 12px; color: var(--red); margin-top: 8px; line-height: 1.6; }

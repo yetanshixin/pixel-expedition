@@ -246,7 +246,7 @@ const Game = {
     } else if (s.type === 'summon') {
       if (!p.pet) {
         const pet = PETS[s.pet];
-        p.pet = { name: pet.name, emoji: pet.emoji, mult: pet.mult };
+        p.pet = { name: pet.name, emoji: pet.emoji, mult: pet.mult, hp: Math.round(p.maxHp * pet.hpMult), maxHp: Math.round(p.maxHp * pet.hpMult), def: pet.def };
         UI.sfx('select');
         UI.log('你召唤了 ' + pet.emoji + ' ' + pet.name + ' 并肩作战！');
       } else {
@@ -380,27 +380,43 @@ const Game = {
     } else {
       const effMult = (act.mult || 1) * (act.charge ? 1.2 : 1);
       const hits = act.hits || 1;
+      const hasPet = p.pet && p.pet.hp > 0;
+      const targetPet = !!act.aoe || (hasPet && Math.random() < 0.3);
+      const targetPlayer = !!act.aoe || !targetPet;
       for (let i = 0; i < hits; i++) {
-        let dmg = this.calcDmg(e.atk, effMult, p.def);
-        if (p.defend) { dmg = Math.max(1, Math.floor(dmg / 2)); p.defend = false; UI.log('你的防御减半了这次伤害！'); }
-        if (p.shield > 0 && dmg > 0) {
-          const ab = Math.min(p.shield, dmg);
-          p.shield -= ab; dmg -= ab;
-          UI.log('护盾吸收了 ' + ab + ' 点伤害');
+        if (targetPlayer && p.hp > 0) {
+          let dmg = this.calcDmg(e.atk, effMult, p.def);
+          if (p.defend) { dmg = Math.max(1, Math.floor(dmg / 2)); p.defend = false; UI.log('你的防御减半了这次伤害！'); }
+          if (p.shield > 0 && dmg > 0) {
+            const ab = Math.min(p.shield, dmg);
+            p.shield -= ab; dmg -= ab;
+            UI.log('护盾吸收了 ' + ab + ' 点伤害');
+          }
+          p.hp = Math.max(0, p.hp - dmg);
+          UI.animHit('player', dmg);
+          if (act.charge) UI.shake();
+          UI.log(e.name + ' 使用「' + act.name + '」，对你造成 ' + dmg + ' 点伤害');
+          if (this.hasRelic('thorns') && dmg > 0) {
+            e.hp = Math.max(0, e.hp - 5);
+            UI.animHitEnemy(e, 5);
+            UI.log('荆棘护甲反弹 5 点伤害');
+            if (e.hp <= 0 && e.deathrattle && !e._deathrattled) {
+              e._deathrattled = true;
+              p.hp = Math.max(0, p.hp - e.deathrattle);
+              UI.animHit('player', e.deathrattle); UI.shake(); UI.sfx('boom');
+              UI.log('💥 ' + e.name + ' 爆炸了！');
+            }
+          }
         }
-        p.hp = Math.max(0, p.hp - dmg);
-        UI.animHit('player', dmg);
-        if (act.charge) UI.shake();
-        UI.log(e.name + ' 使用「' + act.name + '」，对你造成 ' + dmg + ' 点伤害');
-        if (this.hasRelic('thorns') && dmg > 0) {
-          e.hp = Math.max(0, e.hp - 5);
-          UI.animHitEnemy(e, 5);
-          UI.log('荆棘护甲反弹 5 点伤害');
-          if (e.hp <= 0 && e.deathrattle && !e._deathrattled) {
-            e._deathrattled = true;
-            p.hp = Math.max(0, p.hp - e.deathrattle);
-            UI.animHit('player', e.deathrattle); UI.shake(); UI.sfx('boom');
-            UI.log('💥 ' + e.name + ' 爆炸了！');
+        if (targetPet && p.pet && p.pet.hp > 0) {
+          const pdmg = this.calcDmg(e.atk, effMult, p.pet.def);
+          p.pet.hp = Math.max(0, p.pet.hp - pdmg);
+          UI.log(e.name + ' 使用「' + act.name + '」，对 ' + p.pet.name + ' 造成 ' + pdmg + ' 点伤害');
+          if (p.pet.hp <= 0) {
+            UI.log('💔 你的 ' + p.pet.name + ' 阵亡了！');
+            p.pet = null;
+            UI.shake();
+            UI.sfx('defeat');
           }
         }
         if (p.hp <= 0 || e.hp <= 0) break;
