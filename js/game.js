@@ -722,13 +722,6 @@ const Game = {
 
   nextFloor() {
     this.floor++;
-    if (this.floor === MAP_TOTAL) {
-      const p = this.player;
-      p.hp = p.maxHp; p.mp = p.maxMp;
-      this.save();
-      UI.dialogue(['你抵达了魔王堡垒的门口……', '一股温暖的力量恢复了你的全部状态！', '—— 决战的时刻到了。'], () => UI.showMap());
-      return;
-    }
     this.save();
     UI.showMap();
   },
