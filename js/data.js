@@ -213,14 +213,14 @@ const ELEMENT_META = {
 };
 
 const TYPE_CHART = {
-  fire:      { ice: 1.5, water: 0.75, fire: 0.75, dragon: 0.75 },   // 火克冰；被水抗；龙抗火
-  ice:       { water: 1.5, fire: 0.75, ice: 0.75, dragon: 1.5 },    // 冰克水、克龙；被火抗
-  water:     { fire: 1.5, ice: 0.75, water: 0.75, lightning: 0.75, dragon: 0.75 },   // 水克火；被冰抗、被电抗；龙抗水
-  lightning: { water: 1.5, lightning: 0.75, dragon: 0.75 },         // 电克水；龙抗电
-  holy:      { dark: 1.5, holy: 0.75, ice: 0.75 },                  // 光克暗；冰抗光
-  dark:      { holy: 1.5, dark: 1.5, physical: 0.75 },              // 暗克光、克暗；物理抗暗
-  physical:  { dark: 0.75 },                                        // 暗抗物理
-  dragon:    { dragon: 1.5 }                                         // 龙克龙
+  fire:      { ice: 1.5, water: 0.75, dragon: 0.75 },   // 火克冰；被水抗；龙抗火
+  ice:       { dragon: 1.5, fire: 0.75, ice: 0.75 },    // 冰克龙；被火抗；冰抗冰
+  water:     { fire: 1.5, ice: 0.75, dragon: 0.75 },    // 水克火；被冰抗；龙抗水
+  lightning: { water: 1.5, lightning: 0.75, dragon: 0.75 }, // 电克水；电抗电；龙抗电
+  holy:      { dark: 1.5, ice: 0.75 },                  // 光克暗；冰抗光
+  dark:      { holy: 1.5, dark: 1.5, physical: 0.75 },  // 暗克光、克暗；物理抗暗
+  physical:  { dark: 0.75 },                            // 暗抗物理
+  dragon:    { dragon: 1.5 }                             // 龙克龙
 };
 
 const NODE_POOL = ['battle', 'battle', 'battle', 'battle', 'elite', 'elite', 'rest', 'rest', 'shop', 'event', 'event'];
