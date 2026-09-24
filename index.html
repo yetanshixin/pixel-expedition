@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>像素远征 · 肉鸽格斗</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- 标题 -->
+  <section id="screen-title" class="screen active">
+    <div class="title-box pixel-panel">
+      <div class="logo-sprite">⚔️</div>
+      <h1 class="game-title">像素远征</h1>
+      <p class="game-sub">ROGUELIKE · 肉鸽格斗</p>
+      <p id="best-score" class="best">🏆 最佳进度：第 0 层</p>
+      <p id="total-wins" class="best">累计胜场：0</p>
+      <button id="btn-start" class="btn btn-primary">开 始 游 戏</button>
+      <button id="btn-continue" class="btn btn-ghost" style="display:none">继 续 游 戏</button>
+      <button id="btn-mute" class="btn btn-ghost">🔊 音乐：开</button>
+    </div>
+  </section>
+
+  <!-- 选角 -->
+  <section id="screen-hero" class="screen">
+    <div class="hero-box pixel-panel">
+      <h2>选择你的英雄</h2>
+      <p id="hero-hint" class="story"></p>
+      <div id="hero-list" class="hero-list"></div>
+    </div>
+  </section>
+
+  <!-- 职业详情确认 -->
+  <section id="screen-hero-detail" class="screen">
+    <div class="detail-box pixel-panel">
+      <div id="detail-emoji" class="detail-emoji">⚔️</div>
+      <h2 id="detail-name">艾洛</h2>
+      <div id="detail-title" class="detail-title">疾风剑士</div>
+      <div id="detail-stats" class="detail-stats"></div>
+      <div id="detail-desc" class="detail-desc"></div>
+      <h3 class="detail-skills-title">专属技能</h3>
+      <div id="detail-signature" class="detail-skills"></div>
+      <h3 class="detail-skills-title">初始技能</h3>
+      <div id="detail-skills" class="detail-skills"></div>
+      <div class="detail-actions">
+        <button id="btn-detail-back" class="btn btn-ghost">返 回</button>
+        <button id="btn-detail-confirm" class="btn btn-primary">确认选择</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 开局祝福 -->
+  <section id="screen-boon" class="screen">
+    <div class="boon-box pixel-panel">
+      <h2>选择你的开局祝福</h2>
+      <p class="story">冒险开始前，选择一项祝福：</p>
+      <div id="boon-list" class="reward-list"></div>
+    </div>
+  </section>
+
+  <!-- 地图选路 -->
+  <section id="screen-map" class="screen">
+    <div class="map-box pixel-panel">
+      <h2>选择前进路线</h2>
+      <div id="map-progress" class="map-progress">第 1 / 8 层</div>
+      <div id="map-floors" class="map-floors"></div>
+    </div>
+  </section>
+
+  <!-- 休息 -->
+  <section id="screen-rest" class="screen">
+    <div class="rest-box pixel-panel">
+      <h2>🏕️ 篝火营地</h2>
+      <p class="story">选择如何恢复：</p>
+      <div id="rest-list" class="rest-list"></div>
+    </div>
+  </section>
+
+  <!-- 商店 -->
+  <section id="screen-shop" class="screen">
+    <div class="shop-box pixel-panel">
+      <h2>🏪 商店</h2>
+      <p class="story">金币：<b id="shop-gold" class="gold">0</b></p>
+      <div id="shop-list" class="shop-list"></div>
+      <button id="btn-shop-leave" class="btn btn-primary">离开商店</button>
+      <div id="shop-toast" class="shop-toast"></div>
+    </div>
+  </section>
+
+  <!-- 战斗 -->
+  <section id="screen-battle" class="screen">
+    <header class="battle-hud">
+      <span>层 <b id="battle-floor">1</b>/8</span>
+      <span id="battle-wave" class="wave-tag"></span>
+      <span>💰 <b id="battle-gold">0</b></span>
+      <span>连胜 <b id="battle-wins">0</b></span>
+      <button id="btn-mute2" class="btn btn-ghost btn-small">🔊</button>
+    </header>
+    <div id="battle-stage" class="battle-stage pixel-panel">
+      <div id="enemy-zone" class="enemy-zone"></div>
+      <div id="log" class="log"></div>
+      <div id="player-zone" class="zone player-zone">
+        <div class="nameplate">
+          <div id="player-name" class="char-name">你</div>
+          <div class="bar hpbar"><div id="player-hp-fill" class="fill"></div></div>
+          <div class="bar mpbar"><div id="player-mp-fill" class="fill"></div></div>
+          <div id="player-hp-text" class="bar-text">100/100</div>
+          <div id="player-mp-text" class="bar-text">50/50</div>
+          <div id="player-shield" class="shield-text"></div>
+          <div id="player-relics" class="relics"></div>
+        </div>
+        <div id="player-sprite" class="sprite">⚔️</div>
+      </div>
+    </div>
+    <div class="actions">
+      <div id="actions" class="skill-row"></div>
+      <div class="side-actions">
+        <button id="btn-signature" class="btn btn-signature"></button>
+        <button id="btn-item" class="btn btn-item">🎒 道具</button>
+      </div>
+    </div>
+    <div id="bag-panel" class="bag-panel pixel-panel hidden">
+      <div class="bag-title">使用道具</div>
+      <div id="bag-list"></div>
+      <button id="btn-bag-close" class="btn btn-ghost btn-small">取消</button>
+    </div>
+  </section>
+
+  <!-- 奖励三选一 -->
+  <section id="screen-reward" class="screen">
+    <div class="reward-box pixel-panel">
+      <h2 id="reward-title">选择一项奖励</h2>
+      <div id="reward-list" class="reward-list"></div>
+    </div>
+  </section>
+
+  <!-- 事件 -->
+  <section id="screen-event" class="screen">
+    <div class="event-box pixel-panel">
+      <div id="event-emoji" class="event-emoji">❓</div>
+      <h2 id="event-name">事件</h2>
+      <p id="event-text" class="story"></p>
+      <div id="event-choices" class="event-choices"></div>
+      <div id="event-result" class="event-result hidden"></div>
+      <button id="btn-event-continue" class="btn btn-primary hidden">继续前进</button>
+    </div>
+  </section>
+
+  <!-- 剧情对白 -->
+  <section id="screen-dialogue" class="screen">
+    <div class="dialogue-box pixel-panel">
+      <div id="dialogue-text" class="dialogue-text"></div>
+      <div class="dialogue-next">▼ 点击继续</div>
+    </div>
+  </section>
+
+  <!-- 结束 -->
+  <section id="screen-gameover" class="screen">
+    <div class="gameover-box pixel-panel">
+      <h2 id="result-title">战斗结束</h2>
+      <p class="go-line">到达第 <b id="gameover-floor">1</b> / 8 层</p>
+      <p class="go-line">击败 <b id="gameover-wins">0</b> 个敌人</p>
+      <p class="go-line best">🏆 最佳进度：第 <b id="gameover-best">0</b> 层</p>
+      <button id="btn-restart" class="btn btn-primary">再来一局</button>
+      <button id="btn-menu" class="btn btn-ghost">返回主菜单</button>
+    </div>
+  </section>
+
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/game.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
