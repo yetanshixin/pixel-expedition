@@ -70,10 +70,10 @@ const SKILLS = {
   life_drain:  { id: 'life_drain', name: '生命汲取', emoji: '💚', mp: 10, type: 'heal', heal: [0, 20], element: 'holy', desc: '消耗10MP，恢复0~20点生命' },
   heal:        { id: 'heal', name: '治愈术', emoji: '✨', mp: 15, type: 'heal', heal: [25, 25], element: 'holy', desc: '消耗15MP，恢复25点生命' },
   holy_bolt:   { id: 'holy_bolt', name: '光之冲击', emoji: '☀️', mp: 12, mult: 1.6, type: 'attack', element: 'holy', desc: '消耗12MP，造成160%伤害，克制黑暗生物' },
-  summon_blade:{ id: 'summon_blade', name: '剑灵', emoji: '🗡️', mp: 0, type: 'summon', pet: 'blade', signature: true, desc: '召唤剑灵并肩作战，每回合自动攻击' },
+  summon_blade:{ id: 'summon_blade', name: '剑灵', emoji: '🗡️', mp: 0, type: 'summon', pet: 'blade', signature: true, desc: '召唤剑灵并肩作战，每回合自动攻击（本局仅一只）' },
   meditate:    { id: 'meditate', name: '冥想', emoji: '🧘', mp: 0, type: 'mpheal', pct: 0.3, signature: true, desc: '恢复30%最大法力值' },
   steadfast:   { id: 'steadfast', name: '坚定', emoji: '💪', mp: 0, type: 'hpheal', pct: 0.25, shield: 10, signature: true, desc: '恢复25%生命并获得10点护盾' },
-  shadow_clone:{ id: 'shadow_clone', name: '影分身', emoji: '🥷', mp: 0, type: 'summon', pet: 'shadow', signature: true, desc: '召唤影分身并肩作战，每回合自动攻击' }
+  shadow_clone:{ id: 'shadow_clone', name: '影分身', emoji: '🥷', mp: 0, type: 'summon', pet: 'shadow', signature: true, desc: '召唤影分身并肩作战，每回合自动攻击（本局仅一只）' }
 };
 
 /* 遗物：被动效果，可叠加成流派。rarity: common/rare */
