@@ -100,6 +100,14 @@ const UI = {
     setTimeout(() => el.remove(), 950);
   },
 
+  animPet() {
+    const el = this.$('pet-display');
+    if (!el) return;
+    el.classList.remove('shake');
+    void el.offsetWidth;
+    el.classList.add('shake');
+  },
+
   /* ==== 多敌人渲染 ==== */
   clearEnemyCards() {
     this.$('enemy-zone').innerHTML = '';
@@ -187,6 +195,7 @@ const UI = {
       const r = RELICS.find(x => x.id === id);
       return r ? '<span class="relic" title="' + r.name + '：' + r.desc + '">' + r.emoji + '</span>' : '';
     }).join('');
+    this.$('pet-display').innerHTML = p.pet ? '<span class="pet-emoji">' + p.pet.emoji + '</span><span class="pet-name">' + p.pet.name + '</span>' : '';
 
     this.renderEnemies();
     this.updateSkillButtons();

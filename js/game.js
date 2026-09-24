@@ -193,6 +193,7 @@ const Game = {
     const dmg = Math.max(1, Math.round(p.atk * p.pet.mult * 100 / (100 + Math.max(0, target.def))));
     target.hp = Math.max(0, target.hp - dmg);
     UI.animHitEnemy(target, dmg);
+    UI.animPet();
     UI.sfx('hit');
     UI.log(p.pet.emoji + ' ' + p.pet.name + ' 攻击了 ' + target.name + '，造成 ' + dmg + ' 点伤害');
   },
