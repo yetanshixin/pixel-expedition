@@ -108,6 +108,44 @@ const UI = {
     el.classList.add('shake');
   },
 
+  showTooltip(text, el) {
+    const tip = this.$('tooltip');
+    if (!tip) return;
+    tip.textContent = text;
+    const rect = el.getBoundingClientRect();
+    tip.classList.remove('hidden');
+    tip.style.left = (rect.left + rect.width / 2) + 'px';
+    tip.style.top = (rect.top - 6) + 'px';
+  },
+
+  hideTooltip() {
+    const tip = this.$('tooltip');
+    if (tip) tip.classList.add('hidden');
+  },
+
+  setupRelicTooltip() {
+    const relicsEl = this.$('player-relics');
+    if (!relicsEl) return;
+    let longPressTimer = null;
+    relicsEl.addEventListener('mouseover', (e) => {
+      const t = e.target.closest('.relic');
+      if (!t) return;
+      const r = RELICS.find(x => x.id === t.dataset.id);
+      if (r) this.showTooltip(r.name + '：' + r.desc, t);
+    });
+    relicsEl.addEventListener('mouseout', () => this.hideTooltip());
+    relicsEl.addEventListener('touchstart', (e) => {
+      const t = e.target.closest('.relic');
+      if (!t) return;
+      longPressTimer = setTimeout(() => {
+        const r = RELICS.find(x => x.id === t.dataset.id);
+        if (r) this.showTooltip(r.name + '：' + r.desc, t);
+      }, 500);
+    }, { passive: true });
+    relicsEl.addEventListener('touchend', () => { clearTimeout(longPressTimer); this.hideTooltip(); });
+    relicsEl.addEventListener('touchmove', () => { clearTimeout(longPressTimer); this.hideTooltip(); });
+  },
+
   /* ==== 多敌人渲染 ==== */
   clearEnemyCards() {
     this.$('enemy-zone').innerHTML = '';
@@ -193,7 +231,7 @@ const UI = {
     this.$('player-shield').textContent = p.shield > 0 ? '🛡️ ' + p.shield : '';
     this.$('player-relics').innerHTML = p.relics.map(id => {
       const r = RELICS.find(x => x.id === id);
-      return r ? '<span class="relic" title="' + r.name + '：' + r.desc + '">' + r.emoji + '</span>' : '';
+      return r ? '<span class="relic" data-id="' + r.id + '">' + r.emoji + '</span>' : '';
     }).join('');
     this.$('pet-display').innerHTML = p.pet ? '<span class="pet-emoji">' + p.pet.emoji + '</span><span class="pet-name">' + p.pet.name + '</span><span class="pet-hp">' + p.pet.hp + '/' + p.pet.maxHp + '</span>' : '';
 
@@ -622,6 +660,7 @@ const UI = {
     this.updateMuteLabel();
     this.renderHeroList();
     this.updateContinueBtn();
+    this.setupRelicTooltip();
 
     const on = (id, ev, fn) => this.$(id).addEventListener(ev, fn);
 
