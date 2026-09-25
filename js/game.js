@@ -351,6 +351,7 @@ const Game = {
     for (const e of this.enemies) if (e.hp > 0) this.pickIntent(e);
     this.startPlayerTurn();
     UI.setBusy(false);
+    UI.updateItemButton();
   },
 
   enemyActOne(e) {
