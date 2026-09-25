@@ -505,7 +505,7 @@ const Game = {
       if (avail.length) {
         const r = avail[Math.floor(Math.random() * avail.length)];
         this.applyRelic(r.id);
-        UI.log('💎 精英掉落遗物「' + r.name + '」');
+        UI.log('💎 精英掉落遗物「' + r.name + '」：' + r.desc);
       }
     }
     if (Math.random() < 0.3) {
@@ -678,7 +678,7 @@ const Game = {
     const p = this.player;
     switch (r.type) {
       case 'skill': p.skills.push(r.skillId); UI.log('🎓 习得新技能「' + r.name + '」'); break;
-      case 'relic': { const rr = RELICS.find(x => x.id === r.relicId); this.applyRelic(r.relicId); UI.log('💎 获得遗物「' + rr.name + '」'); break; }
+      case 'relic': { const rr = RELICS.find(x => x.id === r.relicId); this.applyRelic(r.relicId); UI.log('💎 获得遗物「' + rr.name + '」：' + rr.desc); break; }
       case 'maxhp': p.maxHp += r.amount; p.hp += r.amount; UI.log('❤️ 生命上限 +' + r.amount); break;
       case 'atk': p.atk += r.amount; UI.log('⚔️ 攻击力 +' + r.amount); break;
       case 'def': p.def += r.amount; UI.log('🛡️ 防御力 +' + r.amount); break;

@@ -245,7 +245,7 @@ const EVENTS = [
           if (!r) { G.player.gold += 30; return '祭坛沉默了，给了你 30 金币（已无稀有遗物可给）。'; }
           G.player.maxHp = Math.max(1, G.player.maxHp - 20);
           G.player.hp = Math.min(G.player.hp, G.player.maxHp);
-          return '你献祭了 20 点生命上限，获得稀有遗物「' + r.name + '」。';
+          return '你献祭了 20 点生命上限，获得稀有遗物「' + r.name + '」：' + r.desc;
         } },
       { text: '恭敬地离开', do: G => '你选择离开祭坛。' }
     ]
